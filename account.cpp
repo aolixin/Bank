@@ -15,26 +15,26 @@ SavingsAccount::SavingsAccount(int date, int id, double rate)
 	cout << setw(8) << setiosflags(ios::left) << date << "#" << this->id << " is created" << endl;
 }
 
-void SavingsAccount::record(int date, double amount) {
+void SavingsAccount::record(Date date, double amount, string target) {
 	accumulation += accumulate(date);
 	lastDate = date;
 	amount = floor(amount * 100 + 0.5) / 100;	//保留两位小数
 	balance += amount;
-	//total += amount;
-	cout << setw(8) << setiosflags(ios::left) << date
-		<< "#" << setw(15) << this->id
-		<< setw(8) << amount << this->getBalance() << endl;
+	//加到总金额
+	total += amount;
+	date.show();
+	cout << "#" << setw(15) << setiosflags(ios::left) << id
+		<< setw(8) << amount
+		<< setw(8) << balance << target << endl;
 }
 
-void SavingsAccount::deposit(int date, double amount) {
-	record(date, amount);
+void SavingsAccount::deposit(Date date, double amount, string target) {
+	record(date, amount, target);
 }
 
-void SavingsAccount::withdraw(int date, double amount) {
-	if (amount > getBalance())
-		cout << "Error: not enough money" << endl;
-	else
-		record(date, -amount);
+void SavingsAccount::withdraw(Date date, double amount, string target)
+{
+	record(date, -amount, target);
 }
 
 void SavingsAccount::settle(int date) {
