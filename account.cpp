@@ -3,45 +3,52 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
-
+#include "date.h"
 using namespace std;
 
-//double SavingsAccount::total = 0;
+double SavingsAccount::total = 0;
 
 //SavingsAccount类相关成员函数的实现
-SavingsAccount::SavingsAccount(int date, int id, double rate)
-: id(id), balance(0), rate(rate), lastDate(date), accumulation(0) {
-	//cout << date << "\t#" << id << " is created" << endl;
-	cout << setw(8) << setiosflags(ios::left) << date << "#" << this->id << " is created" << endl;
+SavingsAccount::SavingsAccount(Date date, string id, double rate) :lastDate(date), id(id),
+rate(rate), accumulation(0), balance(0)
+{
+	this->lastDate.show();
+	cout << "#" << id << " created" << endl;
+
 }
 
-void SavingsAccount::record(int date, double amount) {
+void SavingsAccount::record(Date date, double amount,string target) {
 	accumulation += accumulate(date);
 	lastDate = date;
 	amount = floor(amount * 100 + 0.5) / 100;	//保留两位小数
 	balance += amount;
-	//total += amount;
-	cout << setw(8) << setiosflags(ios::left) << date
-		<< "#" << setw(15) << this->id
-		<< setw(8) << amount << this->getBalance() << endl;
+	//加到总金额
+	total += amount;
+	date.show();
+	cout << "#" << setw(15) << setiosflags(ios::left) <<id 
+		<< setw(8) << amount
+		<< setw(8) << balance  << target << endl;
 }
 
-void SavingsAccount::deposit(int date, double amount) {
-	record(date, amount);
+void SavingsAccount::deposit(Date date, double amount, string target) {
+	record(date, amount,target);
 }
 
-void SavingsAccount::withdraw(int date, double amount) {
-	if (amount > getBalance())
-		cout << "Error: not enough money" << endl;
-	else
-		record(date, -amount);
+void SavingsAccount::withdraw(Date date, double amount, string target)
+{
+	record(date,-amount,target);
 }
 
-void SavingsAccount::settle(int date) {
-	double interest = accumulate(date) + accumulation ;	//计算年息
-	if (interest != 0)
-		record(date, interest);
-	accumulation = 0;
+void SavingsAccount::settle(Date date)
+{
+	double temp = accumulate(date);
+	temp = floor(temp * 100 + 0.5) / 100;
+	this->accumulation += temp;
+	this->lastDate = date;
+	double amount = this->accumulation;
+	amount = floor(amount * 100 + 0.5) / 100;
+	this->accumulation = 0;
+	record(date, amount, "interest");
 }
 
 void SavingsAccount::show() const {
@@ -53,6 +60,11 @@ double SavingsAccount::getBalance()
 	return balance;
 }
 
-double SavingsAccount::accumulate(int date) {
-	return this->balance* (date - this->lastDate)* rate / 365;
+double SavingsAccount::accumulate(Date date) {
+	return this->balance * double(date - this->lastDate) * rate / 365;
+}
+
+double SavingsAccount::getTotal()
+{
+	return SavingsAccount::total;
 }
