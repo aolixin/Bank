@@ -52,7 +52,7 @@ void SavingsAccount::settle(Date date)
 }
 
 void SavingsAccount::show() const {
-	cout << setiosflags(ios::left) << "#" << setw(15) << this->id << "Balance: " << this->balance;
+	cout << setiosflags(ios::left) <<  setw(16) << this->id << "Balance: " << this->balance;
 }
 
 double SavingsAccount::getBalance()
@@ -61,7 +61,7 @@ double SavingsAccount::getBalance()
 }
 
 double SavingsAccount::accumulate(Date date) {
-	return this->balance * double(date - this->lastDate) * rate / 365;
+	return this->balance * double(date - this->lastDate) * rate / lastDate.getMaxDay();
 }
 
 double SavingsAccount::getTotal()
