@@ -15,15 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="step_1.cpp">
+    <ClCompile Include="account.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="account.cpp">
+    <ClCompile Include="step_2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="date.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="date.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
