@@ -6,65 +6,142 @@
 #include "date.h"
 using namespace std;
 
-double SavingsAccount::total = 0;
+/*-------------------------------------account类函数--------------------------------------------*/
 
-//SavingsAccount类相关成员函数的实现
-SavingsAccount::SavingsAccount(Date date, string id, double rate) :lastDate(date), id(id),
-rate(rate), accumulation(0), balance(0)
+//静态变量赋值
+double Account::total = 0;
+
+//构造函数
+Account::Account(Date date, string id)
 {
-	this->lastDate.show();
-	cout << "#" << id << " created" << endl;
-
+	this->id = id;
+	this->balance = 0.0f;
+	cout << setw(16) << setiosflags(ios::left) << date.show() << "#" << this->getId() << " created" << endl;
 }
 
-void SavingsAccount::record(Date date, double amount,string target) {
-	accumulation += accumulate(date);
-	lastDate = date;
-	amount = floor(amount * 100 + 0.5) / 100;	//保留两位小数
-	balance += amount;
-	//加到总金额
+void Account::record(Date date, double amount, string desc)
+{
+	amount = floor(amount * 100 + 0.5) / 100;
+	this->balance += amount;
 	total += amount;
-	date.show();
-	cout << "#" << setw(15) << setiosflags(ios::left) <<id 
-		<< setw(8) << amount
-		<< setw(8) << balance  << target << endl;
+	cout << setw(16) << setiosflags(ios::left) << date.show()
+		<< "#" << setw(15) << this->getId()
+		<< setw(8) << setiosflags(ios::left) << amount
+		<< setw(8) << setiosflags(ios::left) << this->getBalance() << desc << endl;
 }
 
-void SavingsAccount::deposit(Date date, double amount, string target) {
-	record(date, amount,target);
+// 展示
+void Account::show() const
+{
+	cout << setw(16) << this->id << "Balance: " << this->getBalance();
+}
+// 报错
+void Account::error(string msg)const
+{
+	cout << "Error: " << msg << endl;
 }
 
+string Account::getId()const
+{
+	return id;
+}
+double Account::getBalance() const
+{
+	return balance;
+}
+double Account::getTotal()
+{
+	return total;
+}
+
+/*-------------------------------------account类函数--------------------------------------------*/
+
+/*----------------------------------SavingsAccount类函数----------------------------------------*/
+
+//构造函数
+SavingsAccount::SavingsAccount(Date date, string id, double rate):Account(date,id),acc(date, 0)
+{
+	this->rate = rate;
+}
+
+//存款
+void SavingsAccount::deposit(Date date, double amount, string desc)
+{
+	record(date, amount, desc);
+	acc.change(date, this->getBalance());
+}
+//取款
 void SavingsAccount::withdraw(Date date, double amount, string target)
 {
-	record(date,-amount,target);
+	record(date, -amount, target);
+	acc.change(date, this->getBalance());
+}
+double SavingsAccount::getRate()const
+{
+	return rate;
 }
 
 void SavingsAccount::settle(Date date)
 {
-	double temp = accumulate(date);
-	temp = floor(temp * 100 + 0.5) / 100;
-	this->accumulation += temp;
-	this->lastDate = date;
-	double amount = this->accumulation;
-	amount = floor(amount * 100 + 0.5) / 100;
-	this->accumulation = 0;
-	record(date, amount, "interest");
+	acc.change(date, this->getBalance());
+	int y = acc.lastDate.getY();
+	int m = acc.lastDate.getM();
+	int d = acc.lastDate.getD();
+	double temp = acc.getSum()*rate/Date(y-1,m,d).getMaxDay();
+	acc.reset(date, this->getBalance());
+	record(date, temp, "interest");
 }
 
-void SavingsAccount::show() const {
-	cout << setiosflags(ios::left) << "#" << setw(15) << this->id << "Balance: " << this->balance;
-}
+/*----------------------------------SavingsAccount类函数----------------------------------------*/
 
-double SavingsAccount::getBalance()
+/*-----------------------------------CreditAccount类函数----------------------------------------*/
+
+//构造函数
+CreditAccount::CreditAccount(Date date, string id, double credit, double rate, double fee) :Account(date, id)
 {
-	return balance;
+	acc = Accumulator(date, 0);
+	this->credit = credit;
+	this->rate = rate;
+	this->fee = fee;
 }
 
-double SavingsAccount::accumulate(Date date) {
-	return this->balance * double(date - this->lastDate) * rate / 365;
-}
-
-double SavingsAccount::getTotal()
+//取款函数
+void CreditAccount::withdraw(Date date, double amount, string decs)
 {
-	return SavingsAccount::total;
+	//判断是否超过信用额度
+	if (this->getBalance() < -credit)
+	{
+		error("please repay the credit"); 
+		return;
+	}
+
+	record(date,-amount,decs);
+	acc.change(date, this->getBalance());
+}void CreditAccount::deposit(Date date, double amount, string decs)
+{
+	record(date, amount, decs);
+	acc.change(date, this->getBalance());
 }
+void CreditAccount::settle(Date date)
+{
+	if (date.getM() == 1 && date.getD() == 1)
+	{
+		record(date, -fee, "annual fee");
+	}
+	acc.change(date, this->getBalance());
+	double temp = acc.getSum()*rate;
+	acc.reset(date, this->getBalance());
+
+	if(temp<0)
+	record(date, temp, "interest");
+}
+
+void  CreditAccount::show()
+{
+	if (this->getBalance() < 0)
+		cout << setw(16) << this->getId() << "Balance: " << setw(7) << this->getBalance() << "Available credit:" << credit + this->getBalance();
+	else
+		cout << setw(16) << this->getId() << "Balance: " << setw(7) << this->getBalance() << "Available credit:" << credit
+		;
+}
+/*-----------------------------------CreditAccount类函数----------------------------------------*/

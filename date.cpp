@@ -2,6 +2,7 @@
 #include<iostream>
 #include <iomanip>
 #include<sstream>
+#include<cmath>
 using namespace std;
 
 namespace {//namespace使下面的定义只在当前文件中有效
@@ -29,12 +30,31 @@ void Date::getTotal()
 	this->totalDays = p1 + p2 + p3;
 }
 
-void Date::show()
+string Date::show()
 {
-	stringstream sstr;
-	sstr << this->y << "-" << this->m << "-" << this->d;
-	cout << setw(16) << setiosflags(ios::left) << sstr.str();
+	string str;
+	for(int i=0;i<4;i++)
+	{
+		int t = pow(10, 3 - i);
+		str.push_back((this->y /t%10 ) + '0');
+	}
+	str.push_back('-');
+	if(this->m/10==0)str.push_back((this->m ) + '0');
+	else
+	{
+		str.push_back((this->m /10) + '0');
+		str.push_back((this->m % 10) + '0');
+	}
+	str.push_back('-'); 
+	if (this->d / 10 == 0)str.push_back((this->d) + '0');
+	else
+	{
+		str.push_back((this->d / 10) + '0');
+		str.push_back((this->d % 10) + '0');
+	}
+	return str;
 }
+
 
 int Date::getMaxDay()
 {
@@ -52,4 +72,17 @@ Date::Date(int year, int month, int day) : y(year), m(month), d(day) {
 		exit(1);  //用来中止当前程序的执行，并将一个整数返回给系统，通常，0表示正常退出，1表示异常退出
 	}
 	getTotal();
+}
+
+int Date::getY()
+{
+	return y;
+}
+int Date::getM()
+{
+	return m;
+}
+int Date::getD()
+{
+	return d;
 }
