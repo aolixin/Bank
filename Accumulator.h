@@ -10,8 +10,8 @@ class Accumulator {
 public:
 	//最后操作日期
 	Date lastDate;
-	Accumulator();
 	Accumulator(Date date, double value);
+	Accumulator();
 	double getSum()const;
 	// 改变本金，计算利息
 	void change(Date date,double value);

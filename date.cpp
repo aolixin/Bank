@@ -30,7 +30,7 @@ void Date::getTotal()
 	this->totalDays = p1 + p2 + p3;
 }
 
-string Date::show()
+string Date::toString()
 {
 	string str;
 	for(int i=0;i<4;i++)
@@ -55,6 +55,10 @@ string Date::show()
 	return str;
 }
 
+void Date::show()
+{
+	cout <<this->y<< "-" << this->m<<"-"<<this->d;
+}
 
 int Date::getMaxDay()
 {
@@ -67,22 +71,22 @@ int Date::getMaxDay()
 Date::Date(int year, int month, int day) : y(year), m(month), d(day) {
 	if (day <= 0 || day > getMaxDay()) {
 		cout << "Invalid date: ";
-		show();
+		toString();
 		cout << endl;
 		exit(1);  //用来中止当前程序的执行，并将一个整数返回给系统，通常，0表示正常退出，1表示异常退出
 	}
 	getTotal();
 }
 
-int Date::getY()
+int Date::getYear()
 {
 	return y;
 }
-int Date::getM()
+int Date::getMonth()
 {
 	return m;
 }
-int Date::getD()
+int Date::getDay()
 {
 	return d;
 }

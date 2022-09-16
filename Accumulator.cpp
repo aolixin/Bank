@@ -3,7 +3,10 @@
 #include <cmath>
 //¹¹Ôìº¯Êý
 Accumulator::Accumulator(Date date, double value) :lastDate(date), value(value),sum(0) {}
+Accumulator::Accumulator() : lastDate(1,1,1), value(value), sum(0)
+{
 
+}
 double Accumulator::getSum()const
 {
 	return sum;

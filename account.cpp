@@ -16,7 +16,7 @@ Account::Account(Date date, string id)
 {
 	this->id = id;
 	this->balance = 0.0f;
-	cout << setw(16) << setiosflags(ios::left) << date.show() << "#" << this->getId() << " created" << endl;
+	cout << setw(16) << setiosflags(ios::left) << date.toString() << "#" << this->getId() << " created" << endl;
 }
 
 void Account::record(Date date, double amount, string desc)
@@ -24,7 +24,7 @@ void Account::record(Date date, double amount, string desc)
 	amount = floor(amount * 100 + 0.5) / 100;
 	this->balance += amount;
 	total += amount;
-	cout << setw(16) << setiosflags(ios::left) << date.show()
+	cout << setw(16) << setiosflags(ios::left) << date.toString()
 		<< "#" << setw(15) << this->getId()
 		<< setw(8) << setiosflags(ios::left) << amount
 		<< setw(8) << setiosflags(ios::left) << this->getBalance() << desc << endl;
@@ -84,9 +84,9 @@ double SavingsAccount::getRate()const
 void SavingsAccount::settle(Date date)
 {
 	acc.change(date, this->getBalance());
-	int y = acc.lastDate.getY();
-	int m = acc.lastDate.getM();
-	int d = acc.lastDate.getD();
+	int y = acc.lastDate.getYear();
+	int m = acc.lastDate.getMonth();
+	int d = acc.lastDate.getDay();
 	double temp = acc.getSum()*rate/Date(y-1,m,d).getMaxDay();
 	acc.reset(date, this->getBalance());
 	record(date, temp, "interest");
@@ -124,7 +124,7 @@ void CreditAccount::withdraw(Date date, double amount, string decs)
 }
 void CreditAccount::settle(Date date)
 {
-	if (date.getM() == 1 && date.getD() == 1)
+	if (date.getMonth() == 1 && date.getDay() == 1)
 	{
 		record(date, -fee, "annual fee");
 	}

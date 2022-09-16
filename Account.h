@@ -14,7 +14,6 @@ private:
 	//全部钱
 	static double total;
 public:
-	//
 	Account(Date date, string id);
 	void record(Date date, double amount, string desc);
 	void error(string msg) const;
@@ -22,6 +21,11 @@ public:
 	double getBalance()const;
 	void show()const;
 	double static getTotal();
+	//存钱函数
+	virtual void deposit(Date date, double amount, string id) = 0;
+	//取钱函数
+	virtual void withdraw(Date date, double amount, string target) = 0;
+	virtual void settle(Date date) = 0;
 };
 
 

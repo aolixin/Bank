@@ -9,11 +9,12 @@ public:int totalDays;
 	Date(int y, int m, int d);
 	Date(const Date& date);
 	void getTotal();
-	string show();
+	string toString();
+	void show();
 	int getMaxDay();
 	//ÖØÔØ-ÔËËã·û
 	int operator - (const Date& b);
-	int getY();
-	int getM();
-	int getD();
+	int getYear();
+	int getMonth();
+	int getDay();
 };
