@@ -2,7 +2,11 @@
 #include "date.h"
 #include<string>
 #include "Accumulator.h"
+#include<map>
 using namespace std;
+
+class AccountRecord;
+
 
 //父类
 class Account {
@@ -13,6 +17,10 @@ private:
 	double balance;
 	//全部钱
 	static double total;
+
+	//账目记录
+	static multimap<Date, AccountRecord>recordMap;
+
 public:
 	Account(Date date, string id);
 	void record(Date date, double amount, string desc);
@@ -26,6 +34,8 @@ public:
 	//取钱函数
 	virtual void withdraw(Date date, double amount, string target) = 0;
 	virtual void settle(Date date) = 0;
+	//查询函数
+	static void query(Date date1,Date date2);
 };
 
 
@@ -62,8 +72,24 @@ public:
 	void deposit(Date date, double amount, string target);
 	void show();
 	void settle(Date date);
-	double getDebt()const;
-	double getCredit()const;
-	double getRate()const;
-	double getFee()const;
+	//double getDebt()const;
+	//double getCredit()const;
+	//double getRate()const;
+	//double getFee()const;
+};
+
+class AccountRecord
+{
+private:
+	Date date;
+	const Account* account;
+	double amount;
+	double balance;
+	string desc;
+public:
+	AccountRecord(Date date, Account* account,double amount, double balance, string desc);
+	const Account* getAccount()const;
+	double getAmount()const;
+	double getBalance()const;
+	string getDesc()const;
 };

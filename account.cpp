@@ -4,13 +4,14 @@
 #include <iostream>
 #include <iomanip>
 #include "date.h"
+#include<map>
 using namespace std;
 
 /*-------------------------------------account类函数--------------------------------------------*/
 
 //静态变量赋值
 double Account::total = 0;
-
+multimap<Date, AccountRecord>Account::recordMap;
 //构造函数
 Account::Account(Date date, string id)
 {
@@ -24,10 +25,30 @@ void Account::record(Date date, double amount, string desc)
 	amount = floor(amount * 100 + 0.5) / 100;
 	this->balance += amount;
 	total += amount;
+	//创建账目
+	AccountRecord accountrecord(date, this, amount, balance, desc);
+	//插入账目记录
+	recordMap.insert(std::make_pair(date, accountrecord));
+
 	cout << setw(16) << setiosflags(ios::left) << date.toString()
 		<< "#" << setw(15) << this->getId()
 		<< setw(8) << setiosflags(ios::left) << amount
 		<< setw(8) << setiosflags(ios::left) << this->getBalance() << desc << endl;
+
+}
+
+void Account::query(Date date1, Date date2)
+{
+	for (auto i = recordMap.begin(); i != recordMap.end(); i++)
+	{
+		if (date1 < i->first && date2>i->first)
+		{
+			cout << setw(16) << setiosflags(ios::left) << i->first.toString()
+				<< "#" << setw(15) << i->second.getAccount()->getId()
+				<< setw(8) << setiosflags(ios::left) << i->second.getAmount()
+				<< setw(8) << setiosflags(ios::left) << i->second.getBalance() << i->second.getDesc() << endl;
+		}
+	}
 }
 
 // 展示
@@ -145,3 +166,30 @@ void  CreditAccount::show()
 		;
 }
 /*-----------------------------------CreditAccount类函数----------------------------------------*/
+
+
+
+/*-----------------------------------AccountRecord类函数----------------------------------------*/
+
+AccountRecord::AccountRecord(Date date, Account* account,double amount ,double balance, string desc):date(date),amount(amount),balance(balance),desc(desc),account(account)
+{}
+
+const Account* AccountRecord::getAccount()const
+{
+	return account;
+}
+
+double AccountRecord::getAmount()const
+{
+	return amount;
+}
+
+double AccountRecord::getBalance()const
+{
+	return balance;
+}
+string AccountRecord::getDesc()const
+{
+	return desc;
+}
+/*-----------------------------------AccountRecord类函数----------------------------------------*/
