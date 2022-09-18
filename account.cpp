@@ -165,6 +165,7 @@ void  CreditAccount::show()
 		cout << setw(16) << this->getId() << "Balance: " << setw(7) << this->getBalance() << "Available credit:" << credit
 		;
 }
+
 /*-----------------------------------CreditAccount类函数----------------------------------------*/
 
 

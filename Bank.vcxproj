@@ -145,11 +145,13 @@
     <ClCompile Include="Accumulator.cpp" />
     <ClCompile Include="date.cpp" />
     <ClCompile Include="step_5.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
     <ClInclude Include="Accumulator.h" />
     <ClInclude Include="date.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
