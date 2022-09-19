@@ -37,9 +37,7 @@ int main()
 
 	Date date(2008, 11, 1);//起始日期
 	vector<Account*> accounts;//创建账户数组，元素个数为0
-
-	cout << "(a)add account (d)deposit (w)withdraw (s)show (c)change day (n)next month (q)query (e)exit" << endl;
-
+	
 	char cmd;
 	char type;
 	int index, day;
@@ -136,10 +134,8 @@ int main()
 
 		//显示日期和总金额
 
-		date.show();
-
-		cout << "\tTotal: " << Account::getTotal() << "\tcommand> ";
-
+		cout << setw(16) << setiosflags(ios::left) << date.toString() << "Total: " << Account::getTotal() << "        command> ";
+		break;
 
 
 		char type;
