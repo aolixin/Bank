@@ -72,10 +72,6 @@ public:
 	void deposit(Date date, double amount, string target);
 	void show();
 	void settle(Date date);
-	//double getDebt()const;
-	//double getCredit()const;
-	//double getRate()const;
-	//double getFee()const;
 };
 
 class AccountRecord

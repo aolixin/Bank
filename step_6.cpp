@@ -124,9 +124,6 @@ int main()
 		}
 
 	}
-	//for_each(accounts.begin(), accounts.end(), deleter());
-	//return 0;
-
 
 	cout << "(a)add account (d)deposit (w)withdraw (s)show (c)change day (n)next month (q)query (e)exit" << endl;
 
@@ -135,7 +132,7 @@ int main()
 		//显示日期和总金额
 
 		cout << setw(16) << setiosflags(ios::left) << date.toString() << "Total: " << Account::getTotal() << "        command> ";
-		break;
+		//break;
 
 
 		char type;
@@ -261,10 +258,6 @@ int main()
 		}
 
 	} while (cmd != 'e');
-
-
-
-
 
 	for_each(accounts.begin(), accounts.end(), deleter());
 

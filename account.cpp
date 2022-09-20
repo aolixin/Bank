@@ -5,6 +5,7 @@
 #include <iomanip>
 #include "date.h"
 #include<map>
+#include "Error.h"
 using namespace std;
 
 /*-------------------------------------account类函数--------------------------------------------*/
@@ -94,6 +95,16 @@ void SavingsAccount::deposit(Date date, double amount, string desc)
 //取款
 void SavingsAccount::withdraw(Date date, double amount, string target)
 {
+	try {
+		if (this->getBalance() < amount)
+		{
+			throw Error("Balance insufficient ");
+		}
+	}
+	catch (Error e) {
+		cerr << e.what() << endl;
+		return;
+	}
 	record(date, -amount, target);
 	acc.change(date, this->getBalance());
 }
@@ -130,9 +141,14 @@ CreditAccount::CreditAccount(Date date, string id, double credit, double rate, d
 void CreditAccount::withdraw(Date date, double amount, string decs)
 {
 	//判断是否超过信用额度
-	if (this->getBalance() < -credit)
-	{
-		error("please repay the credit"); 
+	try{
+		if (this->getBalance() < -credit)
+		{
+			throw Error("Please repay the credit");
+		}
+	}
+	catch(Error e){
+		cerr << e.what() << endl;
 		return;
 	}
 

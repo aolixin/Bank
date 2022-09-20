@@ -5,6 +5,7 @@
 #include<cmath>
 #include<vector>
 #include "utils.h"
+#include "Error.h" 
 using namespace std;
 
 namespace {//namespace使下面的定义只在当前文件中有效
@@ -47,10 +48,21 @@ Date Date::read()
 {
 	string str;
 	std::cin >> str;
-	vector<int>vc = toInt(split(str, '/'));
-	int y = vc[0];
-	int m = vc[1];
-	int d = vc[2];
+	int y = 0, m=1, d=1;
+	try {
+		vector<int>vc = toInt(split(str, '/'));
+		if (vc.size() != 3)
+		{
+			throw Error("Date format error");
+		}
+		y = vc[0];
+		m = vc[1];
+		d = vc[2];
+	}
+	catch (Error e)
+	{
+		cerr << e.what() << endl;
+	}
 	return Date(y, m, d);
 }
 void Date::getTotal()
