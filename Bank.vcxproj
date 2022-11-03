@@ -144,14 +144,16 @@
     <ClCompile Include="account.cpp" />
     <ClCompile Include="Accumulator.cpp" />
     <ClCompile Include="date.cpp" />
-    <ClCompile Include="step_5.cpp" />
+    <ClCompile Include="step_6.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="visual.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
     <ClInclude Include="Accumulator.h" />
     <ClInclude Include="date.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="visual.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
