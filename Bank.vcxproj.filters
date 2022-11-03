@@ -24,10 +24,13 @@
     <ClCompile Include="Accumulator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="step_6.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
+    <ClCompile Include="visual.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Error.cpp">
@@ -47,7 +50,7 @@
     <ClInclude Include="utils.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Error.h">
+    <ClInclude Include="visual.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
